@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French Nouns Visual</title>
+    <title>French Nouns Visual Dictionary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -76,41 +76,6 @@
         </header>
 
         <div id="dictionary-content">
-            <h2 class="category-title text-2xl font-semibold mb-4 mx-auto max-w-7xl">Lieu</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mb-12 mx-auto max-w-7xl">
-                <div class="card shadow-lg hover:shadow-xl flex flex-col" onclick="toggleTranslation('translation-0')">
-                    <div id="image-container-0">
-                        <div id="image-0" class="noun-image flex items-center justify-center border-b border-gray-200">
-                            <div class="spinner"></div>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow">
-                        <div>
-                            <p class="text-xl font-bold text-gray-800">le marché</p>
-                            <p class="text-sm font-medium gender-masc">(masc.)</p>
-                        </div>
-                        <p id="translation-0" class="text-gray-500 mt-2 text-base italic hidden">the market</p>
-                    </div>
-                </div>
-                </div>
-            
-            <h2 class="category-title text-2xl font-semibold mb-4 mx-auto max-w-7xl">Pays</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mb-12 mx-auto max-w-7xl">
-                <div class="card shadow-lg hover:shadow-xl flex flex-col" onclick="toggleTranslation('translation-10')">
-                    <div id="image-container-10">
-                        <div id="image-10" class="noun-image flex items-center justify-center border-b border-gray-200">
-                            <div class="spinner"></div>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow">
-                        <div>
-                            <p class="text-xl font-bold text-gray-800">la France</p>
-                            <p class="text-sm font-medium gender-fem">(fem.)</p>
-                        </div>
-                        <p id="translation-10" class="text-gray-500 mt-2 text-base italic hidden">France</p>
-                    </div>
-                </div>
-                </div>
             </div>
 
         <footer class="text-center mt-12 pt-6 border-t border-gray-200">
@@ -118,5 +83,420 @@
         </footer>
     </div>
 
-    </body>
+    <script>
+        // Data parsed from the uploaded file, structured as an array of objects
+        // Categories have been translated to French
+        const frenchNouns = [
+            { category: "Lieu", noun: "le marché", gender: "masc.", english: "the market"},
+            { category: "Lieu", noun: "la bibliothèque", gender: "fem.", english: "the library"},
+            { category: "Lieu", noun: "l’hôpital", gender: "masc.", english: "the hospital"},
+            { category: "Lieu", noun: "l’école", gender: "fem.", english: "the school"},
+            { category: "Lieu", noun: "le jardin", gender: "masc.", english: "the garden"},
+            { category: "Lieu", noun: "la plage", gender: "fem.", english: "the beach"},
+            { category: "Lieu", noun: "le stade", gender: "masc.", english: "the stadium"},
+            { category: "Lieu", noun: "la gare", gender: "fem.", english: "the train station"},
+            { category: "Lieu", noun: "le cinéma", gender: "masc.", english: "the cinema"},
+            { category: "Lieu", noun: "la montagne", gender: "fem.", english: "the mountain"},
+            
+            { category: "Pays", noun: "la France", gender: "fem.", english: "France"},
+            { category: "Pays", noun: "le Nigeria", gender: "masc.", english: "Nigeria"},
+            { category: "Pays", noun: "l’Italie", gender: "fem.", english: "Italy"},
+            { category: "Pays", noun: "l’Espagne", gender: "fem.", english: "Spain"},
+            { category: "Pays", noun: "le Canada", gender: "masc.", english: "Canada"},
+            { category: "Pays", noun: "la Chine", gender: "fem.", english: "China"},
+            { category: "Pays", noun: "le Japon", gender: "masc.", english: "Japan"},
+            { category: "Pays", noun: "la Suisse", gender: "fem.", english: "Switzerland"},
+            { category: "Pays", noun: "le Maroc", gender: "masc.", english: "Morocco"},
+            { category: "Pays", noun: "l’Allemagne", gender: "fem.", english: "Germany"},
+
+            { category: "Personne", noun: "un homme", gender: "masc.", english: "a man"},
+            { category: "Personne", noun: "une femme", gender: "fem.", english: "a woman"},
+            { category: "Personne", noun: "un enfant", gender: "masc.", english: "a child"},
+            { category: "Personne", noun: "une fille", gender: "fem.", english: "a girl"},
+            { category: "Personne", noun: "un garçon", gender: "masc.", english: "a boy"},
+            { category: "Personne", noun: "un ami", gender: "masc.", english: "a friend (m.)"},
+            { category: "Personne", noun: "une amie", gender: "fem.", english: "a friend (f.)"},
+            { category: "Personne", noun: "un voisin", gender: "masc.", english: "a neighbor (m.)"},
+            { category: "Personne", noun: "une voisine", gender: "fem.", english: "a neighbor (f.)"},
+            { category: "Personne", noun: "une personne", gender: "fem.", english: "a person"},
+
+            { category: "Profession", noun: "un médecin", gender: "masc.", english: "a doctor"},
+            { category: "Profession", noun: "une infirmière", gender: "fem.", english: "a nurse"},
+            { category: "Profession", noun: "un enseignant", gender: "masc.", english: "a teacher (m.)"},
+            { category: "Profession", noun: "une enseignante", gender: "fem.", english: "a teacher (f.)"},
+            { category: "Profession", noun: "un avocat", gender: "masc.", english: "a lawyer (m.)"},
+            { category: "Profession", noun: "une avocate", gender: "fem.", english: "a lawyer (f.)"},
+            { category: "Profession", noun: "un ingénieur", gender: "masc.", english: "an engineer"},
+            { category: "Profession", noun: "une secrétaire", gender: "fem.", english: "a secretary"},
+            { category: "Profession", noun: "un pilote", gender: "masc.", english: "a pilot"},
+            { category: "Profession", noun: "une vendeuse", gender: "fem.", english: "a salesperson (f.)"},
+
+            { category: "Animal Domestique", noun: "le chien", gender: "masc.", english: "the dog (m.)"},
+            { category: "Animal Domestique", noun: "la chienne", gender: "fem.", english: "the dog (f.)"},
+            { category: "Animal Domestique", noun: "le chat", gender: "masc.", english: "the cat (m.)"},
+            { category: "Animal Domestique", noun: "la chatte", gender: "fem.", english: "the cat (f.)"},
+            { category: "Animal Domestique", noun: "la vache", gender: "fem.", english: "the cow"},
+            { category: "Animal Domestique", noun: "le cheval", gender: "masc.", english: "the horse"},
+            { category: "Animal Domestique", noun: "la chèvre", gender: "fem.", english: "the goat"},
+            { category: "Animal Domestique", noun: "le mouton", gender: "masc.", english: "the sheep"},
+            { category: "Animal Domestique", noun: "le coq", gender: "masc.", english: "the rooster"},
+            { category: "Animal Domestique", noun: "la poule", gender: "fem.", english: "the hen"},
+
+            { category: "Animal Sauvage", noun: "le lion", gender: "masc.", english: "the lion (m.)"},
+            { category: "Animal Sauvage", noun: "la lionne", gender: "fem.", english: "the lioness (f.)"},
+            { category: "Animal Sauvage", noun: "l’éléphant", gender: "masc.", english: "the elephant"},
+            { category: "Animal Sauvage", noun: "la girafe", gender: "fem.", english: "the giraffe"},
+            { category: "Animal Sauvage", noun: "le singe", gender: "masc.", english: "the monkey"},
+            { category: "Animal Sauvage", noun: "le tigre", gender: "masc.", english: "the tiger"},
+            { category: "Animal Sauvage", noun: "l’ours", gender: "masc.", english: "the bear"},
+            { category: "Animal Sauvage", noun: "le serpent", gender: "masc.", english: "the snake"},
+            { category: "Animal Sauvage", noun: "le léopard", gender: "masc.", english: "the leopard"},
+            { category: "Animal Sauvage", noun: "la panthère", gender: "fem.", english: "the panther"},
+            
+            { category: "Émotion", noun: "la joie", gender: "fem.", english: "joy"},
+            { category: "Émotion", noun: "la tristesse", gender: "fem.", english: "sadness"},
+            { category: "Émotion", noun: "la peur", gender: "fem.", english: "fear"},
+            { category: "Émotion", noun: "la colère", gender: "fem.", english: "anger"},
+            { category: "Émotion", noun: "l’amour", gender: "masc.", english: "love"},
+            { category: "Émotion", noun: "la haine", gender: "fem.", english: "hatred"},
+            { category: "Émotion", noun: "le bonheur", gender: "masc.", english: "happiness"},
+            { category: "Émotion", noun: "la fatigue", gender: "fem.", english: "tiredness"},
+            { category: "Émotion", noun: "le courage", gender: "masc.", english: "courage"},
+            { category: "Émotion", noun: "la honte", gender: "fem.", english: "shame"},
+
+            { category: "Saisons/Météo", noun: "le printemps", gender: "masc.", english: "spring"},
+            { category: "Saisons/Météo", noun: "l’été", gender: "masc.", english: "summer"},
+            { category: "Saisons/Météo", noun: "l’automne", gender: "masc.", english: "autumn"},
+            { category: "Saisons/Météo", noun: "l’hiver", gender: "masc.", english: "winter"},
+            { category: "Saisons/Météo", noun: "la pluie", gender: "fem.", english: "rain"},
+            { category: "Saisons/Météo", noun: "le vent", gender: "masc.", english: "wind"},
+            { category: "Saisons/Météo", noun: "le soleil", gender: "masc.", english: "sun"},
+            { category: "Saisons/Météo", noun: "la neige", gender: "fem.", english: "snow"},
+            { category: "Saisons/Météo", noun: "le brouillard", gender: "masc.", english: "fog"},
+            { category: "Saisons/Météo", noun: "l’orage", gender: "masc.", english: "thunderstorm"},
+
+            { category: "Jours", noun: "lundi", gender: "masc.", english: "Monday"},
+            { category: "Jours", noun: "mardi", gender: "masc.", english: "Tuesday"},
+            { category: "Jours", noun: "mercredi", gender: "masc.", english: "Wednesday"},
+            { category: "Jours", noun: "jeudi", gender: "masc.", english: "Thursday"},
+            { category: "Jours", noun: "vendredi", gender: "masc.", english: "Friday"},
+            { category: "Jours", noun: "samedi", gender: "masc.", english: "Saturday"},
+            { category: "Jours", noun: "dimanche", gender: "masc.", english: "Sunday"},
+            { category: "Jours", noun: "le jour", gender: "masc.", english: "the day"},
+            { category: "Jours", noun: "la semaine", gender: "fem.", english: "the week"},
+            { category: "Jours", noun: "le week-end", gender: "masc.", english: "the weekend"},
+
+            { category: "Mois", noun: "janvier", gender: "masc.", english: "January"},
+            { category: "Mois", noun: "février", gender: "masc.", english: "February"},
+            { category: "Mois", noun: "mars", gender: "masc.", english: "March"},
+            { category: "Mois", noun: "avril", gender: "masc.", english: "April"},
+            { category: "Mois", noun: "mai", gender: "masc.", english: "May"},
+            { category: "Mois", noun: "juin", gender: "masc.", english: "June"},
+            { category: "Mois", noun: "juillet", gender: "masc.", english: "July"},
+            { category: "Mois", noun: "août", gender: "masc.", english: "August"},
+            { category: "Mois", noun: "septembre", gender: "masc.", english: "September"},
+            { category: "Mois", noun: "octobre", gender: "masc.", english: "October"},
+            
+            { category: "Objets (École)", noun: "le cahier", gender: "masc.", english: "the notebook"},
+            { category: "Objets (École)", noun: "le livre", gender: "masc.", english: "the book"},
+            { category: "Objets (École)", noun: "le stylo", gender: "masc.", english: "the pen"},
+            { category: "Objets (École)", noun: "le crayon", gender: "masc.", english: "the pencil"},
+            { category: "Objets (École)", noun: "la gomme", gender: "fem.", english: "the eraser"},
+            { category: "Objets (École)", noun: "la règle", gender: "fem.", english: "the ruler"},
+            { category: "Objets (École)", noun: "le sac", gender: "masc.", english: "the bag"},
+            { category: "Objets (École)", noun: "la feuille", gender: "fem.", english: "the sheet of paper"},
+            { category: "Objets (École)", noun: "le tableau", gender: "masc.", english: "the blackboard/board"},
+            { category: "Objets (École)", noun: "la craie", gender: "fem.", english: "the chalk"},
+
+            { category: "Objets (Salle de Classe)", noun: "la chaise", gender: "fem.", english: "the chair"},
+            { category: "Objets (Salle de Classe)", noun: "la table", gender: "fem.", english: "the table"},
+            { category: "Objets (Salle de Classe)", noun: "le bureau", gender: "masc.", english: "the desk/office"},
+            { category: "Objets (Salle de Classe)", noun: "la fenêtre", gender: "fem.", english: "the window"},
+            { category: "Objets (Salle de Classe)", noun: "la porte", gender: "fem.", english: "the door"},
+            { category: "Objets (Salle de Classe)", noun: "la lampe", gender: "fem.", english: "the lamp"},
+            { category: "Objets (Salle de Classe)", noun: "le ventilateur", gender: "masc.", english: "the fan"},
+            { category: "Objets (Salle de Classe)", noun: "le projecteur", gender: "masc.", english: "the projector"},
+            { category: "Objets (Salle de Classe)", noun: "la carte", gender: "fem.", english: "the map"},
+            // Note: le tableau is duplicated, handled above
+
+            { category: "Objets (Bureau)", noun: "le téléphone", gender: "masc.", english: "the telephone"},
+            { category: "Objets (Bureau)", noun: "l’ordinateur", gender: "masc.", english: "the computer"},
+            { category: "Objets (Bureau)", noun: "la souris", gender: "fem.", english: "the mouse"},
+            { category: "Objets (Bureau)", noun: "le clavier", gender: "masc.", english: "the keyboard"},
+            { category: "Objets (Bureau)", noun: "le dossier", gender: "masc.", english: "the folder/file"},
+            { category: "Objets (Bureau)", noun: "la chaise", gender: "fem.", english: "the chair"},
+            { category: "Objets (Bureau)", noun: "le bureau", gender: "masc.", english: "the desk/office"},
+            { category: "Objets (Bureau)", noun: "la lampe", gender: "fem.", english: "the lamp"},
+            { category: "Objets (Bureau)", noun: "le papier", gender: "masc.", english: "the paper"},
+            { category: "Objets (Bureau)", noun: "l’imprimante", gender: "fem.", english: "the printer"},
+
+            { category: "Objets (Lieux de Culte)", noun: "la Bible", gender: "fem.", english: "the Bible"},
+            { category: "Objets (Lieux de Culte)", noun: "le Coran", gender: "masc.", english: "the Quran"},
+            { category: "Objets (Lieux de Culte)", noun: "le banc", gender: "masc.", english: "the bench/pew"},
+            { category: "Objets (Lieux de Culte)", noun: "la croix", gender: "fem.", english: "the cross"},
+            { category: "Objets (Lieux de Culte)", noun: "le chapelet", gender: "masc.", english: "the rosary"},
+            { category: "Objets (Lieux de Culte)", noun: "la prière", gender: "fem.", english: "the prayer"},
+            { category: "Objets (Lieux de Culte)", noun: "le tapis", gender: "masc.", english: "the carpet/rug"},
+            { category: "Objets (Lieux de Culte)", noun: "l’autel", gender: "masc.", english: "the altar"},
+            { category: "Objets (Lieux de Culte)", noun: "la cloche", gender: "fem.", english: "the bell"},
+            { category: "Objets (Lieux de Culte)", noun: "le chant", gender: "masc.", english: "the song/chant"},
+
+            { category: "Objets (Maison)", noun: "la porte", gender: "fem.", english: "the door"},
+            { category: "Objets (Maison)", noun: "la fenêtre", gender: "fem.", english: "the window"},
+            { category: "Objets (Maison)", noun: "le toit", gender: "masc.", english: "the roof"},
+            { category: "Objets (Maison)", noun: "le mur", gender: "masc.", english: "the wall"},
+            { category: "Objets (Maison)", noun: "la cuisine", gender: "fem.", english: "the kitchen"},
+            { category: "Objets (Maison)", noun: "le salon", gender: "masc.", english: "the living room"},
+            { category: "Objets (Maison)", noun: "la salle de bain", gender: "fem.", english: "the bathroom"},
+            { category: "Objets (Maison)", noun: "le couloir", gender: "masc.", english: "the hallway"},
+            { category: "Objets (Maison)", noun: "le jardin", gender: "masc.", english: "the garden"},
+            { category: "Objets (Maison)", noun: "la véranda", gender: "fem.", english: "the porch/veranda"},
+
+            { category: "Objets (Chambre)", noun: "le lit", gender: "masc.", english: "the bed"},
+            { category: "Objets (Chambre)", noun: "la couverture", gender: "fem.", english: "the blanket"},
+            { category: "Objets (Chambre)", noun: "l’oreiller", gender: "masc.", english: "the pillow"},
+            { category: "Objets (Chambre)", noun: "la lampe", gender: "fem.", english: "the lamp"},
+            { category: "Objets (Chambre)", noun: "la table de nuit", gender: "fem.", english: "the nightstand"},
+            { category: "Objets (Chambre)", noun: "le matelas", gender: "masc.", english: "the mattress"},
+            { category: "Objets (Chambre)", noun: "la moustiquaire", gender: "fem.", english: "the mosquito net"},
+            { category: "Objets (Chambre)", noun: "le placard", gender: "masc.", english: "the closet"},
+            { category: "Objets (Chambre)", noun: "la commode", gender: "fem.", english: "the chest of drawers"},
+            { category: "Objets (Chambre)", noun: "le miroir", gender: "masc.", english: "the mirror"},
+
+            { category: "Véhicules (Aérien)", noun: "l’avion", gender: "masc.", english: "the airplane"},
+            { category: "Véhicules (Aérien)", noun: "l’hélicoptère", gender: "masc.", english: "the helicopter"},
+            { category: "Véhicules (Aérien)", noun: "le drone", gender: "masc.", english: "the drone"},
+            { category: "Véhicules (Aérien)", noun: "le ballon", gender: "masc.", english: "the balloon (hot air)"},
+            { category: "Véhicules (Aérien)", noun: "le jet privé", gender: "masc.", english: "the private jet"},
+            { category: "Véhicules (Aérien)", noun: "le planeur", gender: "masc.", english: "the glider"},
+            { category: "Véhicules (Aérien)", noun: "le dirigeable", gender: "masc.", english: "the airship/blimp"},
+            { category: "Véhicules (Aérien)", noun: "l’ULM", gender: "masc.", english: "the microlight aircraft"},
+            { category: "Véhicules (Aérien)", noun: "le parachute", gender: "masc.", english: "the parachute"},
+            { category: "Véhicules (Aérien)", noun: "le deltaplane", gender: "masc.", english: "the hang glider"},
+
+            { category: "Véhicules (Ferroviaire)", noun: "le train", gender: "masc.", english: "the train"},
+            { category: "Véhicules (Ferroviaire)", noun: "le métro", gender: "masc.", english: "the subway/metro"},
+            { category: "Véhicules (Ferroviaire)", noun: "le tramway", gender: "masc.", english: "the tram"},
+            { category: "Véhicules (Ferroviaire)", noun: "le wagon", gender: "masc", english: "the carriage/wagon"},
+            { category: "Véhicules (Ferroviaire)", noun: "la locomotive", gender: "fem.", english: "the locomotive"},
+            { category: "Véhicules (Ferroviaire)", noun: "le rail", gender: "masc.", english: "the rail/track"},
+            { category: "Véhicules (Ferroviaire)", noun: "la gare", gender: "fem.", english: "the train station"},
+            { category: "Véhicules (Ferroviaire)", noun: "le funiculaire", gender: "masc.", english: "the funicular"},
+            { category: "Véhicules (Ferroviaire)", noun: "le TGV", gender: "masc.", english: "the TGV (High-Speed Train)"},
+            { category: "Véhicules (Ferroviaire)", noun: "le billet", gender: "masc.", english: "the ticket"},
+
+            { category: "Véhicules (Nautique)", noun: "le bateau", gender: "masc.", english: "the boat"},
+            { category: "Véhicules (Nautique)", noun: "le navire", gender: "masc.", english: "the ship"},
+            { category: "Véhicules (Nautique)", noun: "la pirogue", gender: "fem.", english: "the dugout canoe"},
+            { category: "Véhicules (Nautique)", noun: "le voilier", gender: "masc.", english: "the sailboat"},
+            { category: "Véhicules (Nautique)", noun: "le sous-marin", gender: "masc.", english: "the submarine"},
+            { category: "Véhicules (Nautique)", noun: "le ferry", gender: "masc.", english: "the ferry"},
+            { category: "Véhicules (Nautique)", noun: "la barque", gender: "fem.", english: "the rowboat"},
+            { category: "Véhicules (Nautique)", noun: "le yacht", gender: "masc.", english: "the yacht"},
+            { category: "Véhicules (Nautique)", noun: "la chaloupe", gender: "fem.", english: "the longboat"},
+            { category: "Véhicules (Nautique)", noun: "le cargo", gender: "masc.", english: "the cargo ship"},
+
+            { category: "Véhicules (Routier)", noun: "la voiture", gender: "fem.", english: "the car"},
+            { category: "Véhicules (Routier)", noun: "le bus", gender: "masc.", english: "the bus"},
+            { category: "Véhicules (Routier)", noun: "le camion", gender: "masc.", english: "the truck"},
+            { category: "Véhicules (Routier)", noun: "la moto", gender: "fem.", english: "the motorcycle"},
+            { category: "Véhicules (Routier)", noun: "le vélo", gender: "masc.", english: "the bicycle"},
+            { category: "Véhicules (Routier)", noun: "le taxi", gender: "masc.", english: "the taxi"},
+            { category: "Véhicules (Routier)", noun: "le car (coach)", gender: "masc.", english: "the coach/bus"},
+            { category: "Véhicules (Routier)", noun: "le scooter", gender: "masc.", english: "the scooter"},
+            { category: "Véhicules (Routier)", noun: "la remorque", gender: "fem.", english: "the trailer"},
+            { category: "Véhicules (Routier)", noun: "le tricycle", gender: "masc.", english: "the tricycle"},
+
+            { category: "Maladie (Mineure)", noun: "le rhume", gender: "masc.", english: "the cold"},
+            { category: "Maladie (Mineure)", noun: "la toux", gender: "fem.", english: "the cough"},
+            { category: "Maladie (Mineure)", noun: "la fièvre", gender: "fem.", english: "the fever"},
+            { category: "Maladie (Mineure)", noun: "la migraine", gender: "fem.", english: "the migraine"},
+            { category: "Maladie (Mineure)", noun: "le mal de gorge", gender: "masc.", english: "the sore throat"},
+            { category: "Maladie (Mineure)", noun: "la fatigue", gender: "fem.", english: "the tiredness"},
+            { category: "Maladie (Mineure)", noun: "le mal de tête", gender: "masc.", english: "the headache"},
+            { category: "Maladie (Mineure)", noun: "le mal de dos", gender: "masc.", english: "the backache"},
+            { category: "Maladie (Mineure)", noun: "la constipation", gender: "fem.", english: "the constipation"},
+            { category: "Maladie (Mineure)", noun: "l’indigestion", gender: "fem.", english: "the indigestion"},
+
+            { category: "Maladie (Virale)", noun: "la grippe", gender: "fem.", english: "the flu"},
+            { category: "Maladie (Virale)", noun: "la diarrhée", gender: "fem.", english: "the diarrhea"},
+            { category: "Maladie (Virale)", noun: "la varicelle", gender: "fem.", english: "the chickenpox"},
+            { category: "Maladie (Virale)", noun: "la rougeole", gender: "fem.", english: "the measles"},
+            { category: "Maladie (Virale)", noun: "la rubéole", gender: "fem.", english: "the rubella"},
+            { category: "Maladie (Virale)", noun: "la poliomyélite", gender: "fem.", english: "the polio"},
+            { category: "Maladie (Virale)", noun: "le VIH", gender: "masc.", english: "HIV"},
+            { category: "Maladie (Virale)", noun: "l’hépatite", gender: "fem.", english: "the hepatitis"},
+            { category: "Maladie (Virale)", noun: "la gastro-entérite", gender: "fem.", english: "the stomach flu"},
+            { category: "Maladie (Virale)", noun: "la bronchiolite", gender: "fem.", english: "the bronchiolitis"}
+        ];
+
+        const apiKey = "";
+        const imageApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+
+        /**
+         * Helper for exponential backoff retry for API calls.
+         */
+        async function retryFetch(url, options, retries = 5, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        if (response.status === 429 && i < retries - 1) { // Rate limit handling
+                            await new Promise(resolve => setTimeout(resolve, delay * (2 ** i)));
+                            continue;
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay * (2 ** i)));
+                }
+            }
+        }
+
+        /**
+         * Generates an image using the Imagen model and updates the image element.
+         */
+        async function generateImage(prompt, elementId) {
+            const imageElement = document.getElementById(elementId);
+            if (!imageElement) return;
+
+            // Display loading spinner
+            imageElement.outerHTML = `<div id="${elementId}" class="noun-image flex items-center justify-center border-b border-gray-200"><div class="spinner"></div></div>`;
+            const containerElement = document.getElementById(elementId);
+            
+            try {
+                const payload = {
+                    instances: [{ prompt: `Photorealistic image of: ${prompt}, suitable for language learning.` }],
+                    parameters: { "sampleCount": 1, "aspectRatio": "1:1" }
+                };
+
+                const response = await retryFetch(imageApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                const base64Data = result?.predictions?.[0]?.bytesBase64Encoded;
+
+                if (base64Data) {
+                    const imageUrl = `data:image/png;base64,${base64Data}`;
+                    containerElement.outerHTML = `<img id="${elementId}" class="noun-image" src="${imageUrl}" alt="Visual representation of ${prompt}">`;
+                } else {
+                    console.error("Image generation failed for:", prompt, result);
+                    containerElement.outerHTML = `<img id="${elementId}" class="noun-image" src="https://placehold.co/400x180/ef4444/ffffff?text=Gen+Failed" alt="Image Generation Failed">`;
+                }
+            } catch (error) {
+                console.error("Fetch error for:", prompt, error);
+                containerElement.outerHTML = `<img id="${elementId}" class="noun-image" src="https://placehold.co/400x180/9ca3af/ffffff?text=Error+Loading" alt="Error Loading Image">`;
+            }
+        }
+
+        // Function to group nouns by category
+        function groupByCategory(nouns) {
+            return nouns.reduce((acc, noun) => {
+                const category = noun.category;
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(noun);
+                return acc;
+            }, {});
+        }
+
+        // Function to render the dictionary structure
+        function renderDictionary(data) {
+            const container = document.getElementById('dictionary-content');
+            const groupedData = groupByCategory(data);
+            let html = '';
+            let globalIndex = 0;
+
+            for (const category in groupedData) {
+                // Category Header
+                html += `
+                    <h2 class="category-title text-2xl font-semibold mb-4 mx-auto max-w-7xl">${category}</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mb-12 mx-auto max-w-7xl">
+                `;
+
+                // Noun Cards
+                groupedData[category].forEach((item) => {
+                    const genderClass = item.gender === 'masc.' ? 'gender-masc' : 'gender-fem';
+                    const translationId = `translation-${globalIndex}`;
+                    const imageId = `image-${globalIndex}`;
+                    
+                    html += `
+                        <div class="card shadow-lg hover:shadow-xl flex flex-col" onclick="toggleTranslation('${translationId}')">
+                            <div id="image-container-${globalIndex}">
+                                <div id="${imageId}" class="noun-image flex items-center justify-center border-b border-gray-200">
+                                    <div class="spinner"></div>
+                                </div>
+                            </div>
+                            <div class="p-4 flex flex-col justify-between flex-grow">
+                                <div>
+                                    <p class="text-xl font-bold text-gray-800">${item.noun}</p>
+                                    <p class="text-sm font-medium ${genderClass}">(${item.gender})</p>
+                                </div>
+                                <p id="${translationId}" class="text-gray-500 mt-2 text-base italic hidden">${item.english}</p>
+                            </div>
+                        </div>
+                    `;
+                    globalIndex++;
+                });
+
+                html += `</div>`; // Close grid
+            }
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Function to initiate image generation for all items with staggering.
+         */
+        function initializeImageGeneration(data) {
+            const allNouns = data;
+            const batchSize = 18; // Number of images to generate at once
+            let startIndex = 0;
+
+            const generateBatch = () => {
+                const endIndex = Math.min(startIndex + batchSize, allNouns.length);
+                const batch = allNouns.slice(startIndex, endIndex);
+
+                batch.forEach((item, indexInBatch) => {
+                    const globalIndex = startIndex + indexInBatch;
+                    const prompt = item.noun;
+                    const imageId = `image-${globalIndex}`;
+                    generateImage(prompt, imageId);
+                });
+
+                startIndex = endIndex;
+
+                if (startIndex < allNouns.length) {
+                    // Schedule the next batch after a small delay to prevent rapid API calls
+                    setTimeout(generateBatch, 2000); 
+                }
+            };
+
+            generateBatch(); // Start the process
+        }
+
+
+        // Function to toggle the visibility of the English translation
+        function toggleTranslation(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('hidden');
+            }
+        }
+
+        // Initial render on load
+        window.onload = () => {
+            renderDictionary(frenchNouns);
+            // Once the structure is rendered, start generating the images
+            initializeImageGeneration(frenchNouns);
+        };
+    </script>
+</body>
 </html>
